@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  auth0_id  String   @unique
+  actions   Action[]
+  reactions Reaction[]
+  auths     Auth[]
+}
+
+model Auth {
+  id                Int      @id @default(autoincrement())
+  user              User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id           Int
+  type              String  //TODO remove one of two
+  actions           Action[]
+  reactions         Reaction[]
+  refresh_token     String?  @db.VarChar(1000)//TODO maybe change this field
+  access_token      String?  @db.VarChar(1000)//TODO maybe change this field
+  username          String?
+  password          String?
+}
+
+model Action {
+  id                    Int         @id @default(autoincrement())
+  user                  User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id               Int
+  reaction              Reaction   @relation(fields: [reaction_id], references: [id], onDelete: Cascade)
+  reaction_id           Int
+  service_type          String  //TODO remove one of two
+  action_type           String  //TODO remove one of two
+  auth                  Auth        @relation(fields: [auth_id], references: [id], onDelete: Cascade)
+  auth_id               Int
+  params                Json?
+}
+
+model Reaction {
+  id                    Int         @id @default(autoincrement())
+  user                  User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id               Int
+  action                Action?
+  service_type          String  //TODO remove one of two
+  reaction_type         String  //TODO remove one of two
+  auth                  Auth        @relation(fields: [auth_id], references: [id], onDelete: Cascade)
+  auth_id               Int
+  params                Json?
+}

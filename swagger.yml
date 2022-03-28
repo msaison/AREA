@@ -1,0 +1,536 @@
+swagger: '2.0'
+info:
+  description: |
+    Epitech Area Project
+  version: 1.0.0
+  title: Area
+tags:
+  - name: Server_to_Client
+    description: Routes used by client
+  - name: Server_to_Server
+    description: Routes used by external servers
+  - name: Client_only
+    description: Route implemented ony in web_app
+paths:
+  /about.json:
+    get:
+      tags:
+        - Client_only
+      summary: Display about.json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Success
+  /client.apk:
+    get:
+      tags:
+        - Client_only
+      summary: Download Android APK
+      responses:
+        200:
+          description: Success
+  /user/id:
+    get:
+      tags:
+        - Server_to_Client
+      summary: Get user id.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: auth0_id
+          description: User's auth0_id
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /github_callback:
+    get:
+      tags:
+        - Server_to_Server
+      summary: Callback used to catch Github authentification response.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: state
+          description: User's auth0_id
+          type: string
+          required: true
+        - in: query
+          name: code
+          description: Auth2 code
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /github_webhook/{action_id}:
+    get:
+      tags:
+        - Server_to_Server
+      summary: Github Webhooks allow you to build or set up integrations.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: action_id
+          description: Action id to perform
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /google_callback:
+    get:
+      tags:
+        - Server_to_Server
+      summary: Callback used to catch Google authentification response.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: state
+          description: User's auth0_id
+          type: string
+          required: true
+        - in: query
+          name: code
+          description: Auth2 code
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /discord_callback:
+    get:
+      tags:
+        - Server_to_Server
+      summary: Callback used to catch Discord authentification response.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: state
+          description: User's auth0_id
+          type: string
+          required: true
+        - in: query
+          name: code
+          description: Auth2 code
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /yammer_callback:
+    get:
+      tags:
+        - Server_to_Server
+      summary: Callback used to catch Yammer authentification response.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: state
+          description: User's auth0_id
+          type: string
+          required: true
+        - in: query
+          name: code
+          description: Auth2 code
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /twitter_callback:
+    get:
+      tags:
+        - Server_to_Server
+      summary: Callback used to catch Twitter authentification response.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: state
+          description: User's auth0_id
+          type: string
+          required: true
+        - in: query
+          name: code
+          description: Auth2 code
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /cronhook_webhook/{action_id}:
+    get:
+      tags:
+        - Server_to_Server
+      summary: CronHook Webhooks allow you to build or set up integrations.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: action_id
+          description: Action id to perform
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /services:
+    get:
+      tags:
+        - Server_to_Client
+      summary: Get all services.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Success
+  /services/action:
+    get:
+      tags:
+        - Server_to_Client
+      summary: List all actions.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Success
+  /services/reaction:
+    get:
+      tags:
+        - Server_to_Client
+      summary: List all reactions.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Success
+  /auths:
+    get:
+      tags:
+        - Server_to_Client
+      summary: Get user id.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: auth0_id
+          description: User's auth0_id
+          type: string
+          required: false
+      responses:
+        200:
+          description: Success
+  /user/auth/create:
+    post:
+      tags:
+        - Server_to_Client
+      summary: Create new user.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: auth
+          description: auth body
+          required: true
+          schema:
+            type: object
+            required:
+              - auth0_id
+              - auth_type
+            properties:
+              auth0_id:
+                $ref: '#/definitions/Auth0Id'
+              auth_type:
+                $ref: '#/definitions/AuthType'
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /user/auth/delete:
+    post:
+      tags:
+        - Server_to_Client
+      summary: Create new user.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: auth
+          description: auth body
+          required: true
+          schema:
+            type: object
+            required:
+              - auth0_id
+              - auth_id
+            properties:
+              auth0_id:
+                $ref: '#/definitions/Auth0Id'
+              auth_type:
+                $ref: '#/definitions/AuthId'
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /user/services/connected:
+    post:
+      tags:
+        - Server_to_Client
+      summary: Connect to a service.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: service
+          description: service body
+          required: true
+          schema:
+            type: object
+            required:
+              - auth0_id
+              - auth_type
+              - service_type
+            properties:
+              auth0_id:
+                $ref: '#/definitions/Auth0Id'
+              auth_type:
+                $ref: '#/definitions/AuthType'
+              service_type:
+                $ref: '#/definitions/ServiceType'
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /user/services/reaction/create:
+    post:
+      tags:
+        - Server_to_Client
+      summary: Create a reaction from a service.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: reaction
+          description: reaction body
+          required: true
+          schema:
+            type: object
+            required:
+              - auth0_id
+              - auth_type
+              - service_type
+              - action_type
+              - params
+            properties:
+              auth0_id:
+                $ref: '#/definitions/Auth0Id'
+              auth_type:
+                $ref: '#/definitions/AuthType'
+              service_type:
+                $ref: '#/definitions/ServiceType'
+              action_type:
+                $ref: '#/definitions/ReactionType'
+              params:
+                $ref: '#/definitions/ReactionParams'
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /user/services/action/create:
+    post:
+      tags:
+        - Server_to_Client
+      summary: Create a action from a service.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: action
+          description: action body
+          required: true
+          schema:
+            type: object
+            required:
+              - auth0_id
+              - auth_type
+              - service_type
+              - action_type
+              - params
+            properties:
+              auth0_id:
+                $ref: '#/definitions/Auth0Id'
+              auth_type:
+                $ref: '#/definitions/AuthType'
+              service_type:
+                $ref: '#/definitions/ServiceType'
+              action_type:
+                $ref: '#/definitions/ActionType'
+              params:
+                $ref: '#/definitions/ActionParams'
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /user/applets:
+    get:
+      tags:
+        - Server_to_Client
+      summary: Get all applets.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: auth0_id
+          description: User's auth0_id
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+  /user/applets/destroy:
+    get:
+      tags:
+        - Server_to_Client
+      summary: Get all applets.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: auth0_id
+          description: User's auth0_id
+          type: string
+          required: true
+        - in: query
+          name: reaction_id
+          description: Reaction id
+          type: string
+          required: true
+      responses:
+        500:
+          description: Invalid Input
+        200:
+          description: Success
+definitions:
+  Auth0Id:
+    type: string
+    description: User's auth0_id
+  AuthId:
+    type: string
+    description: Auth id
+  AuthType:
+    type: string
+    description: Auth type
+    enum:
+      - GOOGLE
+      - TWITTER
+      - GITHUB
+      - DISCORD
+      - YAMMER
+      - CRONHOOK
+  ServiceType:
+    type: string
+    enum:
+      - GMAIL
+      - TWITTER
+      - GITHUB
+      - DISCORD
+      - YAMMER
+      - CRONHOOK
+  ActionType:
+    type: string
+    description: Action type
+    enum:
+      - new_commit
+      - new_issue
+      - closed_issue
+      - on_issue_edit
+      - new_pull_request
+      - closed_pull_request
+      - on_pull_request_edit
+      - on_cron
+      - run_at_time
+  ReactionType:
+    type: string
+    description: Reaction type
+    enum:
+      - send_email
+      - post_tweet
+      - post_message_channel_discord
+      - post_message_channel_yammer
+      - create_issue
+      - create_pull_request
+  ActionParams:
+    type: object
+    description: Action params (Ex ${name}; value)
+  ReactionParams:
+    type: string
+    description: Reaction params (Ex ${name}; value)
+host: areatestbackexpress.loca.lt
+basePath: /
+schemes:
+  - https
+  - http

@@ -1,0 +1,64 @@
+version: "3.7"
+
+services:
+  back_express:
+    container_name: back_express
+    build:
+      context: ./BackExpress
+      target: dev
+    volumes:
+      - ./BackExpress:/BackExpress
+    ports:
+      - "8080:3000"
+    environment:
+      NODE_ENV: development
+      DEBUG: nodejs-docker-express:*
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - mariadb
+    platform: linux/amd64
+  mariadb:
+    container_name: mariadb
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./Mariadb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=S3cret
+      - MYSQL_DATABASE=area_db
+    networks:
+      - backend
+    platform: linux/amd64
+  web_app:
+    container_name: web_app
+    build:
+      context: ./webapp
+      target: dev
+    volumes:
+      - ./webapp:/webapp
+      - apk:/webapp/mobile:ro
+    ports:
+      - "8081:8080"
+    environment:
+      NODE_ENV: development
+    networks:
+      - frontend
+    depends_on:
+      - back_express
+    platform: linux/amd64
+  # mobile_app:
+  #   container_name: mobile_app
+  #   build:
+  #     context: ./FrontApp
+  #   volumes:
+  #     - apk:/build/app/outputs/flutter-apk/:rw
+  #   platform: linux/amd64
+
+networks:
+  backend:
+  frontend:
+volumes:
+  apk:
