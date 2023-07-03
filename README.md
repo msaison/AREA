@@ -1,7 +1,7 @@
 # Area
 
 	
-&#9888; This is a clone of my school repo, i don't make the entire project, I make the entire Flutter application, and adding some api to the Back-end like Twitter, Discord and Yammer
+&#9888; This is a clone of my school repo, i didn't make the entire project. I made the entire Flutter application, and adding some api to the Back-end like Twitter, Discord and Yammer
 
 
 
